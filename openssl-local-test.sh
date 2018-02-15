@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "#Compare relative performance of various ciphers in 10 seconds (New Session only)"
 # 10-second tests
 IFS=":"
