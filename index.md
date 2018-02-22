@@ -69,7 +69,7 @@ This kernel might be too large to boot on computers with limited memory.
 
 Use the lsmod command to check whether the crypto device driver module is already loaded.
 If the module is not loaded, use the modprobe command to load the device driver module.
-Example 2-7 shows that the Linux system is not yet loaded with the crypto device driver
+If it shows that the Linux system is not yet loaded with the crypto device driver
 modules, so you must load it manually. The cryptographic device driver consists of multiple,
 separate modules. You can configure the cryptographic device driver through module
 parameters when you load the AP bus module.
@@ -81,10 +81,6 @@ parameters when you load the AP bus module.
 [root@ghrhel74crypt ~]# modprobe sha512_s390
 [root@ghrhel74crypt ~]# modprobe rng
 [root@ghrhel74crypt ~]# modprobe hmac
-
-[root@ghrhel74crypt ~]# modprobe ap
-
-lszcrypt: error - cryptographic device driver zcrypt is not loaded!
 ```
 
 It is possible to manually request the loading of a module with the modprobe or insmod
@@ -94,13 +90,14 @@ there is an alias name z90crypt that links to the ap main module.
 ```
 [root@ghrhel74crypt ~]# modprobe ap
 ```
+
 Check whether you have plugged in and enabled your IBM cryptographic adapter and
 validate your model and type configuration (accelerator or coprocessor). Issue again the lzcrypt command.
-
 ```
 [root@ghrhel74crypt ~]# lszcrypt
 card01: CEX5A
 ```
+
 #### Installing libica 3.0
 To make use of the libica hardware support for cryptographic functions, you must install the
 libica version 3.0 package. Obtain the current libica version 3.0 as an RPM package from your
@@ -114,6 +111,7 @@ rhel74Suppl                                                                     
 Package libica-3.0.2-2.el7.s390x already installed and latest version
 Nothing to do
 ```
+
 After the libica utility is installed, use the icaiinfo command to check on the CPACF feature
 code enablement. If the Crypto Enablement feature 3863 is installed, you will see that
 besides SHA, other algorithms are available with hardware support.
@@ -165,20 +163,6 @@ Issue the following command to show that the device driver loaded how which cryp
 -------------------------------------------
 No built-in FIPS support.
 ```
-
-#### Required package
-
-#### ICAINFO
-“icainfo” will show the cryptographic operations supported by libica on your system.
-Influenced by processor model and microcode enablement feature.
-
-#### ICAINFO
-
-## Part II - Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
-## Part III - Pervasive Encryption - Enabling dm-crypt to use the Hardware
-## Part IV - Optimization - Enabling Java and WebSphere to Exploit the Crypto Hardware
-## Part V - Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware
-## Part VI - Optimization - Enabling the WAS Plugin to Use the Crypto Hardware
 
 ### Markdown
 
