@@ -38,7 +38,7 @@ Issue the following command /proc/cpuinfo to discover whether the CPACF feature 
 on your hardware.
 ```
 [root@ghrhel74crypt ~]# cat /proc/cpuinfo
-vendor_id       : IBM/S390
+vendor_id       : IBM/S390
 # processors    : 2
 bogomips per cpu: 21881.00
 max thread id   : 0
