@@ -1,10 +1,49 @@
-## Hands-on LAB : Exploiting Crypto Express & CPACF Hardware with LinuxONE
+# Hands-on LAB : Exploiting Crypto Express & CPACF Hardware with LinuxONE
 
 As of March 2018, the IBM Z / LinuxONE has two categories of crypto hardware.
-- CPACF– Provides support for symmetric ciphers and secure hash algorithms (SHA) on every central processor. The potential encryption/decryption throughput scales with the number of CPs.
-- CEX –The Crypto Express feature traditionally could be configured in two ways: Either as cryptographic Coprocessor (CEXC) for secure key encrypted transactions, or as cryptographic Accelerator (CEXA) for Secure Sockets Layer (SSL) acceleration. A CEXA works in clear key mode. The Crypto Express 4S allows for a third mode as a Secure IBM CCA Coprocessor
+- CPACF – Provides support for symmetric ciphers and secure hash algorithms (SHA) on every central processor. The potential encryption/decryption throughput scales with the number of CPs.
+- CEX6S – The Crypto Express feature traditionally could be configured in two ways: Either as cryptographic Coprocessor (CEXC) for secure key encrypted transactions, or as cryptographic Accelerator (CEXA) for Secure Sockets Layer (SSL) acceleration. A CEXA works in clear key mode. The Crypto Express 6S allows for a third mode as a Secure IBM CCA Coprocessor
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## LinuxONE Crypto Background
+OpenSSL needs the engine ibmca to communicate with the interface library (libICA). The libICA library then communicates with CPACF or via the Linux generic device driver z90crypt with a CEX (if available). The device driver z90crypt must be loaded in order to use CEX features.
+
+We know many potential exploiters, and not limited to the following list:
+- WebSphere Application Server/Portal
+- Java Applications
+- IBM HTTP Server
+- Apache
+- WebSphere Plugin
+- Linux SSH, SFTP , SCP
+- In Kernel Crypto Exploiters
+- DM-Crypt
+- IPSec
+...
+## LinuxONE Crypto Stack
+<crypto stack picture here>
+  
+## Hands-on LAB Agenda
+- Enabling Linux to use the Hardware
+- Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
+- Pervasive Encryption - Enabling dm-crypt to use the Hardware
+- Optimization - Enabling Java and WebSphere to Exploit the Crypto Hardware
+- Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware
+- Optimization - Enabling the WAS Plugin to Use the Crypto Hardware
+
+## Part I - Enabling Linux to use the Hardware
+
+### Required package
+
+### ICAINFO
+“icainfo” will show the cryptographic operations supported by libica on your system.
+Influenced by processor model and microcode enablement feature.
+
+### ICAINFO
+
+## Part II - Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
+## Part III - Pervasive Encryption - Enabling dm-crypt to use the Hardware
+## Part IV - Optimization - Enabling Java and WebSphere to Exploit the Crypto Hardware
+## Part V - Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware
+## Part VI - Optimization - Enabling the WAS Plugin to Use the Crypto Hardware
 
 ### Markdown
 
@@ -27,13 +66,3 @@ Syntax highlighted code block
 
 [Link](url) and ![Image](src)
 ```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/guikarai/LinuxONE-crypto-utils/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
