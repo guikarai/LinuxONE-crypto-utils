@@ -31,13 +31,13 @@ We know many potential exploiters, and not limited to the following list:
 
 ## Part I - Enabling Linux to use the Hardware
 
-### Required package
+#### Required package
 
-### ICAINFO
+#### ICAINFO
 “icainfo” will show the cryptographic operations supported by libica on your system.
 Influenced by processor model and microcode enablement feature.
 
-### ICAINFO
+#### ICAINFO
 
 ## Part II - Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
 ## Part III - Pervasive Encryption - Enabling dm-crypt to use the Hardware
