@@ -196,6 +196,23 @@ Dependency Installed:
   libica.s390 0:3.0.2-2.el7                                                                                                                                                                             
 Complete!
 ```
+Now all needed packages are successfully installed. At this moment only the default engine of
+OpenSSL is available. To check it, please issue the following command:
+```
+[root@ghrhel74crypt ~]# openssl engine -c
+(dynamic) Dynamic engine loading support
+```
+#### Configuring OpenSSL
+To use the ibmca engine and to benefit from the Cryptographic hardware support, the
+configuration file of OpenSSL needs to be modified. To customize the OpenSSL configuration
+to enable dynamic engine loading for ibmca, complete the following steps:
+##### Locate
+
+2/
+
+3/
+
+4/
 
 ### Markdown
 
