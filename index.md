@@ -30,7 +30,28 @@ We know many potential exploiters, and not limited to the following list:
 - Optimization - Enabling the WAS Plugin to Use the Crypto Hardware
 
 ## Part I - Enabling Linux to use the Hardware
-
+#### CPACF Enablement verification
+A Linux on IBM Z user can easily check whether the Crypto Enablement feature is installed
+and which algorithms are supported in hardware. Hardware-acceleration for DES, TDES,
+AES, and GHASH requires CPACF.
+Issue the following command /proc/cpuinfo to discover whether the CPACF feature is enabled
+on your hardware.
+```
+[root@ghrhel74crypt ~]# cat /proc/cpuinfo
+vendor_id       : IBM/S390
+# processors    : 2
+bogomips per cpu: 21881.00
+max thread id   : 0
+features	: esan3 zarch stfle msa ldisp eimm dfp edat etf3eh highgprs te vx sie 
+cache0          : level=1 type=Data scope=Private size=128K line_size=256 associativity=8
+cache1          : level=1 type=Instruction scope=Private size=128K line_size=256 associativity=8
+cache2          : level=2 type=Data scope=Private size=4096K line_size=256 associativity=8
+cache3          : level=2 type=Instruction scope=Private size=2048K line_size=256 associativity=8
+cache4          : level=3 type=Unified scope=Shared size=131072K line_size=256 associativity=32
+cache5          : level=4 type=Unified scope=Shared size=688128K line_size=256 associativity=42
+processor 0: version = FF,  identification = 243EF7,  machine = 3906
+processor 1: version = FF,  identification = 243EF7,  machine = 3906
+```
 #### Required package
 
 #### ICAINFO
