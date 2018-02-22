@@ -42,7 +42,7 @@ vendor_id       : IBM/S390
 # processors    : 2
 bogomips per cpu: 21881.00
 max thread id   : 0
-features	: esan3 zarch stfle **msa ldisp eimm dfp edat etf3eh highgprs te vx sie 
+features	: esan3 zarch stfle msa ldisp eimm dfp edat etf3eh highgprs te vx sie 
 cache0          : level=1 type=Data scope=Private size=128K line_size=256 associativity=8
 cache1          : level=1 type=Instruction scope=Private size=128K line_size=256 associativity=8
 cache2          : level=2 type=Data scope=Private size=4096K line_size=256 associativity=8
@@ -52,6 +52,120 @@ cache5          : level=4 type=Unified scope=Shared size=688128K line_size=256 a
 processor 0: version = FF,  identification = 243EF7,  machine = 3906
 processor 1: version = FF,  identification = 243EF7,  machine = 3906
 ```
+From the cpuinfo output, you can find the features that are enabled in the central processors.
+If the features list has msa listed, it means that CPACF is enabled.
+
+For the Linux virtual machine to gain access to the crypto card, you must load a specialized
+crypto device driver. By default, the device drivers that are required for Crypto processing are
+not loaded. Issue the following command lszcrypt to assess if the crypto device driver is loaded in your environment.
+```
+[root@ghrhel74crypt ~]# lszcrypt
+lszcrypt: error - cryptographic device driver zcrypt is not loaded!
+```
+Most of the distributions include a generic kernel image for the specific platform. These
+device drivers for the generic kernel image are included as loadable kernel modules because
+statically compiling many drivers into one kernel causes the kernel image to be much larger.
+This kernel might be too large to boot on computers with limited memory.
+
+Use the lsmod command to check whether the crypto device driver module is already loaded.
+If the module is not loaded, use the modprobe command to load the device driver module.
+Example 2-7 shows that the Linux system is not yet loaded with the crypto device driver
+modules, so you must load it manually. The cryptographic device driver consists of multiple,
+separate modules. You can configure the cryptographic device driver through module
+parameters when you load the AP bus module.
+```
+[root@ghrhel74crypt ~]# modprobe aes_s390
+[root@ghrhel74crypt ~]# modprobe des_s390
+[root@ghrhel74crypt ~]# modprobe sha1_s390
+[root@ghrhel74crypt ~]# modprobe sha256_s390
+[root@ghrhel74crypt ~]# modprobe sha512_s390
+[root@ghrhel74crypt ~]# modprobe rng
+[root@ghrhel74crypt ~]# modprobe hmac
+
+[root@ghrhel74crypt ~]# modprobe ap
+
+lszcrypt: error - cryptographic device driver zcrypt is not loaded!
+```
+
+It is possible to manually request the loading of a module with the modprobe or insmod
+command after the bootup process and make to permanently part of the system. The device
+driver is now loaded as separate modules, where the main module is called ap. However,
+there is an alias name z90crypt that links to the ap main module.
+```
+[root@ghrhel74crypt ~]# modprobe ap
+```
+Check whether you have plugged in and enabled your IBM cryptographic adapter and
+validate your model and type configuration (accelerator or coprocessor). Issue again the lzcrypt command.
+
+```
+[root@ghrhel74crypt ~]# lszcrypt
+card01: CEX5A
+```
+#### Installing libica 3.0
+To make use of the libica hardware support for cryptographic functions, you must install the
+libica version 3.0 package. Obtain the current libica version 3.0 as an RPM package from your
+distribution provider for automated installation.
+```
+[root@ghrhel74crypt ~]# yum install libica-utils
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+rhel74                                                                                                                                                                           | 4.1 kB  00:00:00     
+rhel74Suppl                                                                                                                                                                      | 4.1 kB  00:00:00     
+Package libica-3.0.2-2.el7.s390x already installed and latest version
+Nothing to do
+```
+After the libica utility is installed, use the icaiinfo command to check on the CPACF feature
+code enablement. If the Crypto Enablement feature 3863 is installed, you will see that
+besides SHA, other algorithms are available with hardware support.
+The icainfo command displays which CPACF functions are supported by the implementation
+inside the libica library.
+Issue the following command to show that the device driver loaded how which cryptographic algorithms will be accelerated and hardware or software way.
+```
+[root@ghrhel74crypt ~]# icainfo
+      Cryptographic algorithm support      
+-------------------------------------------
+ function      |  hardware  |  software  
+---------------+------------+------------
+         SHA-1 |    yes     |     yes
+       SHA-224 |    yes     |     yes
+       SHA-256 |    yes     |     yes
+       SHA-384 |    yes     |     yes
+       SHA-512 |    yes     |     yes
+      SHA3-224 |    yes     |      no
+      SHA3-256 |    yes     |      no
+      SHA3-384 |    yes     |      no
+      SHA3-512 |    yes     |      no
+     SHAKE-128 |    yes     |      no
+     SHAKE-256 |    yes     |      no
+         GHASH |    yes     |      no
+         P_RNG |    yes     |     yes
+  DRBG-SHA-512 |    yes     |     yes
+        RSA ME |    yes     |     yes
+       RSA CRT |    yes     |     yes
+       DES ECB |    yes     |     yes
+       DES CBC |    yes     |     yes
+       DES OFB |    yes     |      no
+       DES CFB |    yes     |      no
+       DES CTR |    yes     |      no
+      DES CMAC |    yes     |      no
+      3DES ECB |    yes     |     yes
+      3DES CBC |    yes     |     yes
+      3DES OFB |    yes     |      no
+      3DES CFB |    yes     |      no
+      3DES CTR |    yes     |      no
+     3DES CMAC |    yes     |      no
+       AES ECB |    yes     |     yes
+       AES CBC |    yes     |     yes
+       AES OFB |    yes     |      no
+       AES CFB |    yes     |      no
+       AES CTR |    yes     |      no
+      AES CMAC |    yes     |      no
+       AES XTS |    yes     |      no
+       AES GCM |    yes     |      no
+-------------------------------------------
+No built-in FIPS support.
+```
+
 #### Required package
 
 #### ICAINFO
