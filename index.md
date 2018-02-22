@@ -1,6 +1,6 @@
 # Hands-on LAB : Exploiting Crypto Express & CPACF Hardware with LinuxONE
 
-As of March 2018, the IBM Z / LinuxONE has two categories of crypto hardware.
+As of March 2018, the LinuxONE has two categories of crypto hardware.
 - CPACF – Provides support for symmetric ciphers and secure hash algorithms (SHA) on every central processor. The potential encryption/decryption throughput scales with the number of CPs.
 - CEX6S – The Crypto Express feature traditionally could be configured in two ways: Either as cryptographic Coprocessor (CEXC) for secure key encrypted transactions, or as cryptographic Accelerator (CEXA) for Secure Sockets Layer (SSL) acceleration. A CEXA works in clear key mode. The Crypto Express 6S allows for a third mode as a Secure IBM CCA Coprocessor
 
@@ -42,7 +42,7 @@ vendor_id       : IBM/S390
 # processors    : 2
 bogomips per cpu: 21881.00
 max thread id   : 0
-features	: esan3 zarch stfle **msa** ldisp eimm dfp edat etf3eh highgprs te vx sie 
+features	: esan3 zarch stfle **bold**msa ldisp eimm dfp edat etf3eh highgprs te vx sie 
 cache0          : level=1 type=Data scope=Private size=128K line_size=256 associativity=8
 cache1          : level=1 type=Instruction scope=Private size=128K line_size=256 associativity=8
 cache2          : level=2 type=Data scope=Private size=4096K line_size=256 associativity=8
