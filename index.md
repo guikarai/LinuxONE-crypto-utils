@@ -164,6 +164,39 @@ Issue the following command to show that the device driver loaded how which cryp
 No built-in FIPS support.
 ```
 
+## Part II - Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
+This chapter describes how to use the cryptographic functions of the LinuxONE to encrypt data in flight. This technique means that the data is encrypted and decrypted before and after it is transmitted. We will use OpenSSL, SCP and SFTP to demonstrate the encryption of data in flight.
+This chapter also shows how to customize the product to use the LinuxONE hardware encryption features. This chapter includes the following sections:
+- Preparing to use OpenSSL
+- Configuring OpenSSL
+- Testing Hardware Crypto functions with OpenSSL
+- Testing Hardware Crypto functions with SCP
+- Testing Hardware Crypto functions with SFTP
+
+#### Preparing to use OpenSSL
+In the Linux system you use, OpenSSL is already instlaled, and the system is already enabled to use the
+cryptographic hardware of the LinuxONE. We also loaded the cryptographic device driver and the
+libica 3.0 package to use the crypto hardware.
+For the following, the following packages are required for encryption:
+- openssl
+- openssl098e
+- openssl-libs
+- openssl-ibmca
+
+During the installation of RHEL 7.4, the package openssl-ibmca was not automatically
+installed and needs to be installed manually. Please issue the following command:
+```
+[root@ghrhel74crypt ~]# yum install openssl-ibmca.s390
+
+[...truncated...]
+
+Installed:
+  openssl-ibmca.s390 0:1.3.0-2.el7                                                                                                                                                                      
+Dependency Installed:
+  libica.s390 0:3.0.2-2.el7                                                                                                                                                                             
+Complete!
+```
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
