@@ -1,6 +1,8 @@
-## Welcome to GitHub Pages
+## Hands-on LAB : Exploiting Crypto Express & CPACF Hardware with Linux on IBM Z / LinuxONE
 
-You can use the [editor on GitHub](https://github.com/guikarai/LinuxONE-crypto-utils/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+As of March 2018, the IBM Z / LinuxONE has two categories of crypto hardware.
+• CPACF– Provides support for symmetric ciphers and secure hash algorithms (SHA) on every central processor. The potential encryption/decryption throughput scales with the number of CPs.
+• CEX –The Crypto Express feature traditionally could be configured in two ways: Either as cryptographic Coprocessor (CEXC) for secure key encrypted transactions, or as cryptographic Accelerator (CEXA) for Secure Sockets Layer (SSL) acceleration. A CEXA works in clear key mode. The Crypto Express 4S allows for a third mode as a Secure IBM CCA Coprocessor
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
