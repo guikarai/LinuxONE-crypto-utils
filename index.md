@@ -276,6 +276,50 @@ AES-192-CFB, AES-256-CFB, SHA1, SHA256, SHA512]
 
 #### Crypto Express6S card support for OpenSSL
 
+### Part III - Pervasive Encryption - Enabling dm-crypt to use the Hardware
+The cryptsetup feature provides an interface for configuring encryption on block devices (such as /home or swap partitions), using the Linux kernel device mapper target dm-crypt. It features integrated LUKS support. LUKS standardizes the format of the encrypted disk, which allows different implementations, even from other operating systems, to access and decrypt the disk. LUKS adds metadata to the underlying block device, which contains information about the ciphers used and a default of eight key slots that hold an encrypted version of the master key used to decrypt the device. 
+You can unlock the key slots by either providing a password on the command line or using a key file, which could, for example, be encrypted with gpg and stored on an NFS share.
+
+```
+[root@ghrhel74crypt ~]# yum install cryptsetup
+Loaded plugins: product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use
+subscription-manager to register.
+repository
+| 4.1 kB 00:00:00
+Resolving Dependencies
+:
+:
+Installed:
+ cryptsetup.s390x 0:1.7.4-3.el7
+Complete!
+[root@itsoln1 iso]# rpm -qa | grep crypt*
+cryptsetup-libs-1.7.4-3.el7.s390x
+
+cryptsetup-1.7.4-3.el7.s390x
+libgcrypt-1.5.3-14.el7.s390x
+m2crypto-0.21.1-17.el7.s390x
+
+```
+
+The dm-crypt feature supports various cipher and hashing algorithms that you can select
+from the ones that are available in the Kernel and listed in the /proc/crypto procfs file. This
+also means that dm-crypt takes advantage of the unique hardware acceleration features of
+IBM Z that increase encryption and decryption speed.
+Using the cryptsetup command, create a LUKS partition on the respective disk devices. For full disk encryption, use the AES-xts hardware feature. We choose the AES-xts to achieve a security level of reasonable quality with the best encryption mode.
+To confirm that is the best choise, you can issue the following command:
+```
+[root@ghrhel74crypt ~]# cryptsetup benchmark
+
+```
+
+#### A
+
+#### B
+
+#### C
+
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
