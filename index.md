@@ -22,12 +22,12 @@ We know many potential exploiters, and not limited to the following list:
 <crypto stack picture here>
   
 ## Hands-on LAB Agenda
-- Enabling Linux to use the Hardware
-- Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
-- Pervasive Encryption - Enabling dm-crypt to use the Hardware
-- Optimization - Enabling Java and WebSphere to Exploit the Crypto Hardware
-- Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware
-- Optimization - Enabling the WAS Plugin to Use the Crypto Hardware
+- Part I : Enabling Linux to use the Hardware
+- Part II : Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
+- Part III : Pervasive Encryption - Enabling dm-crypt to use the Hardware
+- Part IV : Optimization - Enabling Java and WebSphere to Exploit the Crypto Hardware
+- Part V : Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware
+- Part VI : Optimization - Enabling the WAS Plugin to Use the Crypto Hardware
 
 ## Part I - Enabling Linux to use the Hardware
 #### CPACF Enablement verification
