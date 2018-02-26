@@ -310,6 +310,25 @@ Using the cryptsetup command, create a LUKS partition on the respective disk dev
 To confirm that is the best choise, you can issue the following command:
 ```
 [root@ghrhel74crypt ~]# cryptsetup benchmark
+# Tests are approximate using memory only (no storage IO).
+PBKDF2-sha1       265059 iterations per second for 256-bit key
+PBKDF2-sha256     278876 iterations per second for 256-bit key
+PBKDF2-sha512     187245 iterations per second for 256-bit key
+PBKDF2-ripemd160  182551 iterations per second for 256-bit key
+PBKDF2-whirlpool  208381 iterations per second for 256-bit key
+#  Algorithm | Key |  Encryption |  Decryption
+     aes-cbc   128b  2458.2 MiB/s  3794.6 MiB/s
+ serpent-cbc   128b    81.4 MiB/s    95.0 MiB/s
+ twofish-cbc   128b   154.2 MiB/s   181.8 MiB/s
+     aes-cbc   256b  2189.7 MiB/s  3821.0 MiB/s
+ serpent-cbc   256b    83.2 MiB/s    94.8 MiB/s
+ twofish-cbc   256b   161.3 MiB/s   181.7 MiB/s
+     aes-xts   256b  3550.3 MiB/s  3802.4 MiB/s
+ serpent-xts   256b    83.4 MiB/s    94.3 MiB/s
+ twofish-xts   256b   181.5 MiB/s   177.6 MiB/s
+     **aes-xts   512b  3766.1 MiB/s  3747.9 MiB/s**
+ serpent-xts   512b    83.3 MiB/s    94.6 MiB/s
+ twofish-xts   512b   181.9 MiB/s   177.0 MiB/s
 
 ```
 
