@@ -326,7 +326,7 @@ PBKDF2-whirlpool  208381 iterations per second for 256-bit key
      aes-xts   256b  3550.3 MiB/s  3802.4 MiB/s
  serpent-xts   256b    83.4 MiB/s    94.3 MiB/s
  twofish-xts   256b   181.5 MiB/s   177.6 MiB/s
-     **aes-xts   512b  3766.1 MiB/s  3747.9 MiB/s**
+     aes-xts   512b  3766.1 MiB/s  3747.9 MiB/s
  serpent-xts   512b    83.3 MiB/s    94.6 MiB/s
  twofish-xts   512b   181.9 MiB/s   177.0 MiB/s
 
