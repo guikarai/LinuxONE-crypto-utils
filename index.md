@@ -192,12 +192,6 @@ card01: CEX5A
 To make use of the libica hardware support for cryptographic functions, you must install the libica version 3.0 package. Obtain the current libica version 3.0 as an RPM package from your distribution provider for automated installation.
 ```
 [root@ghrhel74crypt ~]# yum install libica-utils
-Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
-This system is not registered with an entitlement server. You can use subscription-manager to register.
-rhel74                                                                                                                                                                           | 4.1 kB  00:00:00     
-rhel74Suppl                                                                                                                                                                      | 4.1 kB  00:00:00     
-Package libica-3.0.2-2.el7.s390x already installed and latest version
-Nothing to do
 ```
 
 After the libica utility is installed, use the icaiinfo command to check on the CPACF feature code enablement. If the Crypto Enablement feature 3863 is installed, you will see that besides SHA, other algorithms are available with hardware support. The icainfo command displays which CPACF functions are supported by the implementation inside the libica library. Issue the following command to show that the device driver loaded how which cryptographic algorithms will be accelerated and hardware or software way.
@@ -266,15 +260,7 @@ In the Linux system you use, OpenSSL is already instlaled, and the system is alr
 During the installation of RHEL 7.4, the package openssl-ibmca was not automatically
 installed and needs to be installed manually. Please issue the following command:
 ```
-[root@ghrhel74crypt ~]# yum install openssl-ibmca.s390
-
-[...truncated...]
-
-Installed:
-  openssl-ibmca.s390 0:1.3.0-2.el7                                                                                                                                                                      
-Dependency Installed:
-  libica.s390 0:3.0.2-2.el7                                                                                                                                                                             
-Complete!
+[root@ghrhel74crypt ~]# yum install openssl-ibmca
 ```
 Now all needed packages are successfully installed. At this moment only the default engine of OpenSSL is available. To check it, please issue the following command:
 ```
@@ -285,6 +271,7 @@ Now all needed packages are successfully installed. At this moment only the defa
 To use the ibmca engine and to benefit from the Cryptographic hardware support, the configuration file of OpenSSL needs to be modified. To customize the OpenSSL configuration to enable dynamic engine loading for ibmca, complete the following steps:
 ##### 1/ Locate the OpenSSL configuration file, which in our Red Hat Enterprise Linux 7.4 distribution is in this subdirectory: 
 ```
+
 ```
 
 ##### 2/ Make a backup copy of the configuration file
@@ -358,24 +345,6 @@ The cryptsetup feature provides an interface for configuring encryption on block
 
 ```
 [root@ghrhel74crypt ~]# yum install cryptsetup
-Loaded plugins: product-id, search-disabled-repos, subscription-manager
-This system is not registered with an entitlement server. You can use
-subscription-manager to register.
-repository
-| 4.1 kB 00:00:00
-Resolving Dependencies
-:
-:
-Installed:
- cryptsetup.s390x 0:1.7.4-3.el7
-Complete!
-[root@itsoln1 iso]# rpm -qa | grep crypt*
-cryptsetup-libs-1.7.4-3.el7.s390x
-
-cryptsetup-1.7.4-3.el7.s390x
-libgcrypt-1.5.3-14.el7.s390x
-m2crypto-0.21.1-17.el7.s390x
-
 ```
 
 The dm-crypt feature supports various cipher and hashing algorithms that you can select from the ones that are available in the Kernel and listed in the /proc/crypto procfs file. This also means that dm-crypt takes advantage of the unique hardware acceleration features of IBM Z that increase encryption and decryption speed.
