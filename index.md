@@ -165,8 +165,7 @@ Use the lsmod command to check whether the crypto device driver module is alread
 If the module is not loaded, use the modprobe command to load the device driver module.
 If it shows that the Linux system is not yet loaded with the crypto device driver
 modules, so you must load it manually. The cryptographic device driver consists of multiple,
-separate modules. You can configure the cryptographic device driver through module
-parameters when you load the AP bus module.
+separate modules.
 ```
 [root@ghrhel74crypt ~]# modprobe aes_s390
 [root@ghrhel74crypt ~]# modprobe des_s390
@@ -177,25 +176,20 @@ parameters when you load the AP bus module.
 [root@ghrhel74crypt ~]# modprobe hmac
 ```
 
-It is possible to manually request the loading of a module with the modprobe or insmod
-command after the bootup process and make to permanently part of the system. The device
-driver is now loaded as separate modules, where the main module is called ap. However,
-there is an alias name z90crypt that links to the ap main module.
+You can configure the cryptographic device driver through module
+parameters when you load the AP bus module. It is possible to manually request the loading of a module with the modprobe or insmod command after the bootup process and make to permanently part of the system. The device driver is now loaded as separate modules, where the main module is called ap. However, there is an alias name z90crypt that links to the ap main module.
 ```
 [root@ghrhel74crypt ~]# modprobe ap
 ```
 
-Check whether you have plugged in and enabled your IBM cryptographic adapter and
-validate your model and type configuration (accelerator or coprocessor). Issue again the lzcrypt command.
+Check whether you have plugged in and enabled your IBM cryptographic adapter and validate your model and type configuration (accelerator or coprocessor). Issue again the lzcrypt command.
 ```
 [root@ghrhel74crypt ~]# lszcrypt
 card01: CEX5A
 ```
 
 #### Installing libica 3.0
-To make use of the libica hardware support for cryptographic functions, you must install the
-libica version 3.0 package. Obtain the current libica version 3.0 as an RPM package from your
-distribution provider for automated installation.
+To make use of the libica hardware support for cryptographic functions, you must install the libica version 3.0 package. Obtain the current libica version 3.0 as an RPM package from your distribution provider for automated installation.
 ```
 [root@ghrhel74crypt ~]# yum install libica-utils
 Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
@@ -206,12 +200,7 @@ Package libica-3.0.2-2.el7.s390x already installed and latest version
 Nothing to do
 ```
 
-After the libica utility is installed, use the icaiinfo command to check on the CPACF feature
-code enablement. If the Crypto Enablement feature 3863 is installed, you will see that
-besides SHA, other algorithms are available with hardware support.
-The icainfo command displays which CPACF functions are supported by the implementation
-inside the libica library.
-Issue the following command to show that the device driver loaded how which cryptographic algorithms will be accelerated and hardware or software way.
+After the libica utility is installed, use the icaiinfo command to check on the CPACF feature code enablement. If the Crypto Enablement feature 3863 is installed, you will see that besides SHA, other algorithms are available with hardware support. The icainfo command displays which CPACF functions are supported by the implementation inside the libica library. Issue the following command to show that the device driver loaded how which cryptographic algorithms will be accelerated and hardware or software way.
 ```
 [root@ghrhel74crypt ~]# icainfo
       Cryptographic algorithm support      
@@ -268,10 +257,7 @@ This chapter also shows how to customize the product to use the LinuxONE hardwar
 - Testing Hardware Crypto functions with SFTP
 
 #### Preparing to use OpenSSL
-In the Linux system you use, OpenSSL is already instlaled, and the system is already enabled to use the
-cryptographic hardware of the LinuxONE. We also loaded the cryptographic device driver and the
-libica 3.0 package to use the crypto hardware.
-For the following, the following packages are required for encryption:
+In the Linux system you use, OpenSSL is already instlaled, and the system is already enabled to use the cryptographic hardware of the LinuxONE. We also loaded the cryptographic device driver and the libica 3.0 package to use the crypto hardware. For the following, the following packages are required for encryption:
 - openssl
 - openssl098e
 - openssl-libs
@@ -290,16 +276,13 @@ Dependency Installed:
   libica.s390 0:3.0.2-2.el7                                                                                                                                                                             
 Complete!
 ```
-Now all needed packages are successfully installed. At this moment only the default engine of
-OpenSSL is available. To check it, please issue the following command:
+Now all needed packages are successfully installed. At this moment only the default engine of OpenSSL is available. To check it, please issue the following command:
 ```
 [root@ghrhel74crypt ~]# openssl engine -c
 (dynamic) Dynamic engine loading support
 ```
 #### Configuring OpenSSL
-To use the ibmca engine and to benefit from the Cryptographic hardware support, the
-configuration file of OpenSSL needs to be modified. To customize the OpenSSL configuration
-to enable dynamic engine loading for ibmca, complete the following steps:
+To use the ibmca engine and to benefit from the Cryptographic hardware support, the configuration file of OpenSSL needs to be modified. To customize the OpenSSL configuration to enable dynamic engine loading for ibmca, complete the following steps:
 ##### 1/ Locate the OpenSSL configuration file, which in our Red Hat Enterprise Linux 7.4 distribution is in this subdirectory: 
 ```
 ```
@@ -371,8 +354,7 @@ AES-192-CFB, AES-256-CFB, SHA1, SHA256, SHA512]
 #### Crypto Express6S card support for OpenSSL
 
 ### Part III - Pervasive Encryption - Enabling dm-crypt to use the Hardware
-The cryptsetup feature provides an interface for configuring encryption on block devices (such as /home or swap partitions), using the Linux kernel device mapper target dm-crypt. It features integrated LUKS support. LUKS standardizes the format of the encrypted disk, which allows different implementations, even from other operating systems, to access and decrypt the disk. LUKS adds metadata to the underlying block device, which contains information about the ciphers used and a default of eight key slots that hold an encrypted version of the master key used to decrypt the device. 
-You can unlock the key slots by either providing a password on the command line or using a key file, which could, for example, be encrypted with gpg and stored on an NFS share.
+The cryptsetup feature provides an interface for configuring encryption on block devices (such as /home or swap partitions), using the Linux kernel device mapper target dm-crypt. It features integrated LUKS support. LUKS standardizes the format of the encrypted disk, which allows different implementations, even from other operating systems, to access and decrypt the disk. LUKS adds metadata to the underlying block device, which contains information about the ciphers used and a default of eight key slots that hold an encrypted version of the master key used to decrypt the device. You can unlock the key slots by either providing a password on the command line or using a key file, which could, for example, be encrypted with gpg and stored on an NFS share.
 
 ```
 [root@ghrhel74crypt ~]# yum install cryptsetup
@@ -396,11 +378,9 @@ m2crypto-0.21.1-17.el7.s390x
 
 ```
 
-The dm-crypt feature supports various cipher and hashing algorithms that you can select
-from the ones that are available in the Kernel and listed in the /proc/crypto procfs file. This
-also means that dm-crypt takes advantage of the unique hardware acceleration features of
-IBM Z that increase encryption and decryption speed.
-Using the cryptsetup command, create a LUKS partition on the respective disk devices. For full disk encryption, use the AES-xts hardware feature. We choose the AES-xts to achieve a security level of reasonable quality with the best encryption mode.
+The dm-crypt feature supports various cipher and hashing algorithms that you can select from the ones that are available in the Kernel and listed in the /proc/crypto procfs file. This also means that dm-crypt takes advantage of the unique hardware acceleration features of IBM Z that increase encryption and decryption speed.
+Using the cryptsetup command, create a LUKS partition on the respective disk devices. For full disk encryption, use the AES xts hardware feature. We choose the AES-xts to achieve a security level of reasonable quality with the best encryption mode.
+
 To confirm that is the best choise, you can issue the following command:
 ```
 [root@ghrhel74crypt ~]# cryptsetup benchmark
