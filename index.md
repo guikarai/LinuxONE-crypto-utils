@@ -67,6 +67,100 @@ device drivers for the generic kernel image are included as loadable kernel modu
 statically compiling many drivers into one kernel causes the kernel image to be much larger.
 This kernel might be too large to boot on computers with limited memory.
 
+The libica package has built-in FIPS support. Libica initialization fails because it cannot access the approved entropy sources i.e., /dev/prandom or /dev/hwrng.
+
+The former needs the prng kernel module to be loaded, the latter needs online CEX C adapters and the ap kernel module to be loaded. To assess the strange behavior, issue the following command:
+```
+[root@ghrhel74crypt ~]# icainfo
+      Cryptographic algorithm support      
+-------------------------------------------
+ function      |  hardware  |  software  
+---------------+------------+------------
+         SHA-1 |  blocked   |   blocked
+       SHA-224 |  blocked   |   blocked
+       SHA-256 |  blocked   |   blocked
+       SHA-384 |  blocked   |   blocked
+       SHA-512 |  blocked   |   blocked
+         GHASH |  blocked   |   blocked
+         P_RNG |  blocked   |   blocked
+  DRBG-SHA-512 |  blocked   |   blocked
+        RSA ME |  blocked   |   blocked
+       RSA CRT |  blocked   |   blocked
+       DES ECB |  blocked   |   blocked
+       DES CBC |  blocked   |   blocked
+       DES OFB |  blocked   |   blocked
+       DES CFB |  blocked   |   blocked
+       DES CTR |  blocked   |   blocked
+      DES CMAC |  blocked   |   blocked
+      3DES ECB |  blocked   |   blocked
+      3DES CBC |  blocked   |   blocked
+      3DES OFB |  blocked   |   blocked
+      3DES CFB |  blocked   |   blocked
+      3DES CTR |  blocked   |   blocked
+     3DES CMAC |  blocked   |   blocked
+       AES ECB |  blocked   |   blocked
+       AES CBC |  blocked   |   blocked
+       AES OFB |  blocked   |   blocked
+       AES CFB |  blocked   |   blocked
+       AES CTR |  blocked   |   blocked
+      AES CMAC |  blocked   |   blocked
+       AES XTS |  blocked   |   blocked
+-------------------------------------------
+Built-in FIPS support: FIPS mode inactive.
+FIPS SELF-TEST FAILURE. CHECK THE SYSLOG.
+``` 
+
+As you can see, acceleration is all blocked, and the FIPS self-test failled. This generate an error we can find in the journalctl. To confirm it, issue the following command:
+```
+[root@ghrhel74crypt ~]# journalctl | grep Libica
+Mar 01 15:05:02 ghrhel74crypt.mop.fr.ibm.com icainfo[1254]: Libica DRBG-SHA-512 entropy source failed.
+ ```
+
+To overcome this issue, issue the following command in order to load rng module.
+```
+[root@ghrhel74crypt ~]# modprobe prng
+```
+To confirm it fixed the problem, issue the following command:
+```
+[root@ghrhel74crypt ~]# icainfo
+      Cryptographic algorithm support      
+-------------------------------------------
+ function      |  hardware  |  software  
+---------------+------------+------------
+         SHA-1 |    yes     |     yes
+       SHA-224 |    yes     |     yes
+       SHA-256 |    yes     |     yes
+       SHA-384 |    yes     |     yes
+       SHA-512 |    yes     |     yes
+         GHASH |    yes     |      no
+         P_RNG |    yes     |     yes
+  DRBG-SHA-512 |    yes     |     yes
+        RSA ME |     no     |     yes
+       RSA CRT |     no     |     yes
+       DES ECB |    yes     |     yes
+       DES CBC |    yes     |     yes
+       DES OFB |    yes     |      no
+       DES CFB |    yes     |      no
+       DES CTR |    yes     |      no
+      DES CMAC |    yes     |      no
+      3DES ECB |    yes     |     yes
+      3DES CBC |    yes     |     yes
+      3DES OFB |    yes     |      no
+      3DES CFB |    yes     |      no
+      3DES CTR |    yes     |      no
+     3DES CMAC |    yes     |      no
+       AES ECB |    yes     |     yes
+       AES CBC |    yes     |     yes
+       AES OFB |    yes     |      no
+       AES CFB |    yes     |      no
+       AES CTR |    yes     |      no
+      AES CMAC |    yes     |      no
+       AES XTS |    yes     |      no
+-------------------------------------------
+Built-in FIPS support: FIPS mode inactive.
+Icainfo displays now the correct IBM Z cryptographic capabilities.
+```
+
 Use the lsmod command to check whether the crypto device driver module is already loaded.
 If the module is not loaded, use the modprobe command to load the device driver module.
 If it shows that the Linux system is not yet loaded with the crypto device driver
