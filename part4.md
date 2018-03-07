@@ -32,5 +32,6 @@ In addition, add the necessary user to the pkcs11 group (root doesn't need to be
 ```
 When started, the pkcsslotd daemon reads the /etc/opencryptoki/opencryptoki.conf configuration file, which it uses to collect information about the tokens configured to work with the system and about their slots.
 ### Configuration
-pkcsconf -t
-
+```
+[root@ghrhel74crypt ~]# pkcsconf -t
+```
