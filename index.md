@@ -30,4 +30,9 @@ We know many potential exploiters, and not limited to the following list:
 - [Part IV : Optimization - Enabling Java and WebSphere to Exploit the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part4.md)
 - [Part V : Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part5.md)
 - [Part VI : Optimization - Enabling the WAS Plugin to Use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part6.md)
-
+### Encryption Benchmark
+- TLS Performance Benchmark
+- SCP,SFTP Performance Benchmark
+- OpenSSL Performance Benchmark
+- Java Performance Benchmark
+- PKCS#11 Performance Benchmark
