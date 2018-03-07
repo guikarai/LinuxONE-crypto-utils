@@ -22,7 +22,7 @@ We know many potential exploiters, and not limited to the following list:
 <crypto stack picture here>
   
 ## Hands-on LAB Agenda
-[- Part I : Enabling Linux to use the Hardware](https://www.google.com)
+[- Part I : Enabling Linux to use the Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part1.md)
 [- Part II : Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware](https://www.google.com)
 [- Part III : Pervasive Encryption - Enabling dm-crypt to use the Hardware](https://www.google.com)
 [- Part IV : Optimization - Enabling Java and WebSphere to Exploit the Crypto Hardware](https://www.google.com)
