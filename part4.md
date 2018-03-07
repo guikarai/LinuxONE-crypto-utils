@@ -1,7 +1,6 @@
 ## Part IV - Enabling Java to use the Hardware
-OpenCryptoki comes with a set of tokens; some are platform-independent and some are specific to Linux on System z:
-
-Soft token is a platform-independent token providing clear key cryptographic functions using a pure software implementation from openssl.
+OpenCryptoki comes with a set of tokens; some are platform-independent and some are specific to Linux on IBM Z:
+- **Soft token** is a platform-independent token providing clear key cryptographic functions using a pure software implementation from openssl.
 - **ICA token** is a Linux on System z-specific token for clear key cryptography exploiting symmetric crypto algorithms and hashes provided by CPACF and possibly RSA algorithms provided by either CryptoExpress accelerators or CCA coprocessors.
 - **CCA token** is a Linux on System z-specific token for secure key cryptography calling the CCA library, which exploits CCA coprocessors.
 - **ICFS token** is a platform-independent token that calls services from a remote cryptography server hosted on z/OS.
