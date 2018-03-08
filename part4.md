@@ -39,5 +39,119 @@ When started, the pkcsslotd daemon reads the /etc/opencryptoki/opencryptoki.conf
 ```
 
 ### Enabling Java to use hardware crypto
-#### Steps
+#### Initial check
+```
+Token #3 Info:
+Label: IBM OS PKCS#11                  
+Manufacturer: IBM Corp.                       
+Model: IBM SoftTok     
+Serial Number: 123             
+Flags: 0x880045 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|USER_PIN_TO_BE_CHANGED|SO_PIN_TO_BE_CHANGED)
+Sessions: 0/18446744073709551614
+R/W Sessions: 18446744073709551615/18446744073709551614
+PIN Length: 4-8
+Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+Hardware Version: 1.0
+Firmware Version: 1.0
+Time: 18:13:52
+```
+
+#### Change the SO PIN
+```
+[root@ghrhel74crypt opencryptoki]# pkcsconf -I -c 3
+Enter the SO PIN: 87654321
+Enter a unique token label: ghrhel74
+```
+
+#### Set the User PIN
+```
+root@ghrhel74crypt opencryptoki]# pkcsconf -c 3 -P
+Enter the SO PIN: 87654321
+Enter the new SO PIN: 12345678
+Re-enter the new SO PIN: 12345678
+```
+
+#### Intermediate check
+```
+[root@ghrhel74crypt opencryptoki]# pkcsconf -t
+Token #3 Info:
+Label: ghrhel74                        
+Manufacturer: IBM Corp.                       
+Model: IBM SoftTok     
+Serial Number: 123             
+Flags: 0x80445 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|TOKEN_INITIALIZED|USER_PIN_TO_BE_CHANGED)
+Sessions: 0/18446744073709551614
+R/W Sessions: 18446744073709551615/18446744073709551614
+PIN Length: 4-8
+Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+Hardware Version: 1.0
+Firmware Version: 1.0
+Time: 18:20:18
+```
+
+#### Change the user PIN
+```
+root@ghrhel74crypt opencryptoki]# pkcsconf -c 3 -u
+Enter the SO PIN: 12345678
+Enter the new user PIN: 12341234
+Re-enter the new user PIN: 12341234
+```
+
+[root@ghrhel74crypt opencryptoki]# pkcsconf -c 3 -p
+Enter user PIN: 12341234
+Enter the new user PIN: 43214321
+Re-enter the new user PIN: 43214321
+
+
+[root@ghrhel74crypt opencryptoki]# pkcsconf -t
+Token #3 Info:
+Label: ghrhel74                        
+Manufacturer: IBM Corp.                       
+Model: IBM SoftTok     
+Serial Number: 123             
+Flags: 0x44D (RNG|LOGIN_REQUIRED|USER_PIN_INITIALIZED|CLOCK_ON_TOKEN|TOKEN_INITIALIZED)
+Sessions: 0/18446744073709551614
+R/W Sessions: 18446744073709551615/18446744073709551614
+PIN Length: 4-8
+Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+Hardware Version: 1.0
+Firmware Version: 1.0
+Time: 18:25:46
+
+
+[root@ghrhel74crypt ~]# cat /proc/driver/z90crypt
+
+zcrypt version: 2.1.1
+Cryptographic domain: 1
+Total device count: 1
+PCICA count: 0
+PCICC count: 0
+PCIXCC MCL2 count: 0
+PCIXCC MCL3 count: 0
+CEX2C count: 0
+CEX2A count: 0
+CEX3C count: 0
+CEX3A count: 1
+requestq count: 0
+pendingq count: 0
+Total open handles: 2
+
+Online devices: 1=PCICA 2=PCICC 3=PCIXCC(MCL2) 4=PCIXCC(MCL3) 5=CEX2C 6=CEX2A 7=CEX3C 8=CEX3A
+  0800000000000000 0000000000000000 0000000000000000 0000000000000000 
+
+Waiting work element counts
+  0000000000000000 0000000000000000 0000000000000000 0000000000000000  
+Per-device successfully completed request counts
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+
+
+
+
+
 #### Update the Java policy files to be unrestricted
