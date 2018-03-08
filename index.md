@@ -27,7 +27,7 @@ We know many potential exploiters, and not limited to the following list:
 - [Part II : Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part2.md)
 - [Part III : Pervasive Encryption - Enabling dm-crypt to use the Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part3.md)
 ### Encryption optimization
-- [Part IV : Optimization - Enabling PKCS#11 APIs to allow application to exploit the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part4.md)
+- [Part IV : Optimization - Enabling PKCS#11 APIs to exploit the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part4.md)
 - [Part V : Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part5.md)
 - [Part VI : Optimization - Enabling the WAS Plugin to Use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part6.md)
 ### Encryption Benchmark
