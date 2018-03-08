@@ -1,4 +1,4 @@
-## Part IV - Enabling PKCS#11 interfaces to use crypto hardware
+## Part IV : Optimization - Enabling PKCS#11 APIs to allow application to exploit the Crypto Hardware
 At this step, you can know how many applications are connected to the z90crypt device driver.
 Please issue the following command:
 ```
