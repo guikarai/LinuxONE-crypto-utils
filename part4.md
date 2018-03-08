@@ -1,5 +1,6 @@
-## Part IV - Enabling Java to use the Hardware
-At this step, you can know how many application is connected to the z90crypt device driver. Please issue the following command:
+## Part IV - Enabling PKCS#11 interfaces to use crypto hardware
+At this step, you can know how many applications are connected to the z90crypt device driver.
+Please issue the following command:
 ```
 [root@ghrhel74crypt ~]# cat /proc/driver/z90crypt
 
@@ -29,10 +30,9 @@ Per-device successfully completed request counts
     00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
     00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
 ```
-As you can see, Total open handles equals to 1. So one application only is plugged to z90crypt for crypto offload.
+As you can see, "Total open handles equals" to 1. So one application only is plugged to z90crypt for crypto offload. This because openssl is already connected to z90crypt thanks to the part III of the lab.
 
-### Java encryption requires OpenCryptoki
-#### OpenCryptoki
+### OpenCryptoki
 OpenCryptoki comes with a set of tokens; some are platform-independent and some are specific to Linux on IBM Z:
 - **Soft token** is a platform-independent token providing clear key cryptographic functions using a pure software implementation from openssl.
 - **ICA token** is a Linux on System z-specific token for clear key cryptography exploiting symmetric crypto algorithms and hashes provided by CPACF and possibly RSA algorithms provided by either CryptoExpress accelerators or CCA coprocessors.
@@ -41,7 +41,7 @@ OpenCryptoki comes with a set of tokens; some are platform-independent and some 
 - **TPM token** is a token for platforms that support a Trusted Platform Module (TPM).
 For the following, we will make it easy with opencryptoki. We will use ica token.
 
-#### OpenCryptoki Installation
+### OpenCryptoki Installation
 To install the basic openCryptoki packages on your system, including a software implementation of a token for testing purposes, enter the following command as root:
 ```
 [root@ghrhel74crypt ~]# yum install opencryptoki
@@ -188,6 +188,6 @@ Per-device successfully completed request counts
     00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
     00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
 ```
-Total open handles 
+As you can see, "Total open handles equals" now to 2. Opencryptoki application is now correctly plugged to z90crypt to benefit of the crypto offload.
 
-### Enabling Java to use hardware crypto
+### OpenSSL with PKCS#11 engine
