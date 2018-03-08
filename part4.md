@@ -1,4 +1,36 @@
 ## Part IV - Enabling Java to use the Hardware
+At this step, you can know how many application is connected to the z90crypt device driver. Please issue the following command:
+```
+[root@ghrhel74crypt ~]# cat /proc/driver/z90crypt
+
+zcrypt version: 2.1.1
+Cryptographic domain: 1
+Total device count: 1
+PCICA count: 0
+PCICC count: 0
+PCIXCC MCL2 count: 0
+PCIXCC MCL3 count: 0
+CEX2C count: 0
+CEX2A count: 0
+CEX3C count: 0
+CEX3A count: 1
+requestq count: 0
+pendingq count: 0
+Total open handles: 2
+
+Online devices: 1=PCICA 2=PCICC 3=PCIXCC(MCL2) 4=PCIXCC(MCL3) 5=CEX2C 6=CEX2A 7=CEX3C 8=CEX3A
+  0800000000000000 0000000000000000 0000000000000000 0000000000000000 
+
+Waiting work element counts
+  0000000000000000 0000000000000000 0000000000000000 0000000000000000  
+Per-device successfully completed request counts
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+```
+As you can see, Total open handles equals to 1. So one application only is plugged to z90crypt for crypto offload.
+
 ### Java encryption requires OpenCryptoki
 #### OpenCryptoki
 OpenCryptoki comes with a set of tokens; some are platform-independent and some are specific to Linux on IBM Z:
@@ -38,7 +70,6 @@ When started, the pkcsslotd daemon reads the /etc/opencryptoki/opencryptoki.conf
 [root@ghrhel74crypt ~]# pkcsconf -t
 ```
 
-### Enabling Java to use hardware crypto
 #### Initial check
 ```
 Token #3 Info:
@@ -57,14 +88,14 @@ Firmware Version: 1.0
 Time: 18:13:52
 ```
 
-#### Change the SO PIN
+#### Initialize slot #3
 ```
 [root@ghrhel74crypt opencryptoki]# pkcsconf -I -c 3
 Enter the SO PIN: 87654321
 Enter a unique token label: ghrhel74
 ```
 
-#### Set the User PIN
+#### Change the SO PIN
 ```
 root@ghrhel74crypt opencryptoki]# pkcsconf -c 3 -P
 Enter the SO PIN: 87654321
@@ -91,7 +122,7 @@ Firmware Version: 1.0
 Time: 18:20:18
 ```
 
-#### Change the user PIN
+#### Set the user PIN
 ```
 root@ghrhel74crypt opencryptoki]# pkcsconf -c 3 -u
 Enter the SO PIN: 12345678
@@ -99,12 +130,16 @@ Enter the new user PIN: 12341234
 Re-enter the new user PIN: 12341234
 ```
 
+#### Change the user PIN
+```
 [root@ghrhel74crypt opencryptoki]# pkcsconf -c 3 -p
 Enter user PIN: 12341234
 Enter the new user PIN: 43214321
 Re-enter the new user PIN: 43214321
+```
 
-
+#### Final check
+```
 [root@ghrhel74crypt opencryptoki]# pkcsconf -t
 Token #3 Info:
 Label: ghrhel74                        
@@ -120,8 +155,11 @@ Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
 Hardware Version: 1.0
 Firmware Version: 1.0
 Time: 18:25:46
+```
+Flag 0x44D means you are all good.
 
-
+You can rapidly check that your implementation works issuing the following command:
+```
 [root@ghrhel74crypt ~]# cat /proc/driver/z90crypt
 
 zcrypt version: 2.1.1
@@ -149,9 +187,7 @@ Per-device successfully completed request counts
     00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
     00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
     00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+```
+Total open handles 
 
-
-
-
-
-#### Update the Java policy files to be unrestricted
+### Enabling Java to use hardware crypto
