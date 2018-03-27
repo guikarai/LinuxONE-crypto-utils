@@ -134,13 +134,13 @@ PBKDF2-whirlpool  208381 iterations per second for 256-bit key
 
 #### PVS
 ```
-[root@probtp-ihs dev]# pvs
+[root@ghrhel74crypt ~]# pvs
   PV         VG    Fmt  Attr PSize   PFree
   /dev/vdb1  ihsvg lvm2 a--  <25.00g    0 
 ```
 #### VGS
 ```
-[root@probtp-ihs dev]# vgs
+[root@ghrhel74crypt ~]# vgs
   VG    #PV #LV #SN Attr   VSize   VFree
   ihsvg   1   1   0 wz--n- <25.00g    0 
 ```
@@ -165,21 +165,21 @@ Verify passphrase: 
 ```
 
 ```
-[root@probtp-ihs dev]# cryptsetup luksOpen /dev/vdc1 ihscrypt
+[root@ghrhel74crypt ~]# cryptsetup luksOpen /dev/vdc1 ihscrypt
 Enter passphrase for /dev/vdc1: 
 ```
 
 ```
-[root@probtp-ihs dev]# ls /dev/m
+[root@ghrhel74crypt ~]# ls /dev/m
 mapper/ mem     mqueue/ 
 ```
 ```
-[root@probtp-ihs dev]# ls /dev/mapper/
+[root@ghrhel74crypt ~]# ls /dev/mapper/
 control  ihscrypt  ihsvg-ihslv
 ```
 
 ```
-[root@probtp-ihs dev]# pvcreate /dev/mapper/ihscrypt 
+[root@ghrhel74crypt ~]# pvcreate /dev/mapper/ihscrypt 
   Physical volume "/dev/mapper/ihscrypt" successfully created.
 ```
 
