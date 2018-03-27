@@ -132,11 +132,117 @@ PBKDF2-whirlpool  208381 iterations per second for 256-bit key
 
 ```
 
-#### A
+#### PVS
+```
+[root@probtp-ihs dev]# pvs
+  PV         VG    Fmt  Attr PSize   PFree
+  /dev/vdb1  ihsvg lvm2 a--  <25.00g    0 
+```
+#### VGS
+```
+[root@probtp-ihs dev]# vgs
+  VG    #PV #LV #SN Attr   VSize   VFree
+  ihsvg   1   1   0 wz--n- <25.00g    0 
+```
 
-#### B
+#### LVS
+```
+[root@probtp-ihs dev]# lvs
+  LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  ihslv ihsvg -wi-ao---- <25.00g
+```
 
-#### C
+```
+[root@probtp-ihs dev]# cryptsetup luksFormat --hash=sha512 --key-size=512 --cipher=aes-xts-plain64 --verify-passphrase /dev/vdc1
+
+WARNING!
+========
+This will overwrite data on /dev/vdc1 irrevocably.
+
+Are you sure? (Type uppercase yes): YES
+Enter passphrase: 
+Verify passphrase: 
+```
+
+```
+[root@probtp-ihs dev]# cryptsetup luksOpen /dev/vdc1 ihscrypt
+Enter passphrase for /dev/vdc1: 
+```
+
+```
+[root@probtp-ihs dev]# ls /dev/m
+mapper/ mem     mqueue/ 
+```
+```
+[root@probtp-ihs dev]# ls /dev/mapper/
+control  ihscrypt  ihsvg-ihslv
+```
+
+```
+[root@probtp-ihs dev]# pvcreate /dev/mapper/ihscrypt 
+  Physical volume "/dev/mapper/ihscrypt" successfully created.
+```
+
+```
+[root@probtp-ihs dev]# vgextend ihsvg /dev/mapper/ihscrypt 
+  Volume group "ihsvg" successfully extended
+```
+```
+[root@probtp-ihs dev]# vgs
+  VG    #PV #LV #SN Attr   VSize  VFree  
+  ihsvg   2   1   0 wz--n- 49.99g <25.00g
+```
+
+```
+[root@probtp-ihs dev]# pvs
+  PV                   VG    Fmt  Attr PSize   PFree  
+  /dev/mapper/ihscrypt ihsvg lvm2 a--  <25.00g <25.00g
+  /dev/vdb1            ihsvg lvm2 a--  <25.00g      0 
+```
+
+```
+[root@probtp-ihs dev]# pvmove /dev/vdb1 /dev/mapper/ihscrypt 
+  /dev/vdb1: Moved: 0.00%
+  /dev/vdb1: Moved: 4.83%
+  /dev/vdb1: Moved: 9.24%
+  /dev/vdb1: Moved: 13.13%
+  /dev/vdb1: Moved: 17.16%
+  /dev/vdb1: Moved: 22.02%
+  /dev/vdb1: Moved: 27.55%
+  /dev/vdb1: Moved: 33.08%
+  /dev/vdb1: Moved: 36.91%
+  /dev/vdb1: Moved: 40.98%
+  /dev/vdb1: Moved: 45.46%
+  /dev/vdb1: Moved: 48.55%
+  /dev/vdb1: Moved: 50.91%
+  /dev/vdb1: Moved: 53.52%
+  /dev/vdb1: Moved: 57.02%
+  /dev/vdb1: Moved: 59.99%
+  /dev/vdb1: Moved: 63.03%
+  /dev/vdb1: Moved: 66.34%
+  /dev/vdb1: Moved: 69.78%
+  /dev/vdb1: Moved: 73.37%
+  /dev/vdb1: Moved: 76.53%
+  /dev/vdb1: Moved: 79.93%
+  /dev/vdb1: Moved: 83.43%
+  /dev/vdb1: Moved: 86.83%
+  /dev/vdb1: Moved: 90.47%
+  /dev/vdb1: Moved: 95.17%
+  /dev/vdb1: Moved: 98.56%
+  /dev/vdb1: Moved: 100.00%
+```
+
+```
+[root@probtp-ihs dev]# vgreduce ihsvg /dev/vdb1
+  Removed "/dev/vdb1" from volume group "ihsvg"
+```
+
+```
+[root@probtp-ihs dev]# lvs
+  LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  ihslv ihsvg -wi-ao---- <25.00g                                                    
+```
+
 
 
 ### Markdown
