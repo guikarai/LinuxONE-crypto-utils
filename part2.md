@@ -147,13 +147,13 @@ PBKDF2-whirlpool  208381 iterations per second for 256-bit key
 
 #### LVS
 ```
-[root@probtp-ihs dev]# lvs
+[root@ghrhel74crypt ~]# lvs
   LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   ihslv ihsvg -wi-ao---- <25.00g
 ```
 
 ```
-[root@probtp-ihs dev]# cryptsetup luksFormat --hash=sha512 --key-size=512 --cipher=aes-xts-plain64 --verify-passphrase /dev/vdc1
+[root@ghrhel74crypt ~]# cryptsetup luksFormat --hash=sha512 --key-size=512 --cipher=aes-xts-plain64 --verify-passphrase /dev/vdc1
 
 WARNING!
 ========
@@ -184,7 +184,7 @@ control  ihscrypt  ihsvg-ihslv
 ```
 
 ```
-[root@probtp-ihs dev]# vgextend ihsvg /dev/mapper/ihscrypt 
+[root@ghrhel74crypt ~]# vgextend ihsvg /dev/mapper/ihscrypt 
   Volume group "ihsvg" successfully extended
 ```
 ```
@@ -194,14 +194,14 @@ control  ihscrypt  ihsvg-ihslv
 ```
 
 ```
-[root@probtp-ihs dev]# pvs
+[root@ghrhel74crypt ~]# pvs
   PV                   VG    Fmt  Attr PSize   PFree  
   /dev/mapper/ihscrypt ihsvg lvm2 a--  <25.00g <25.00g
   /dev/vdb1            ihsvg lvm2 a--  <25.00g      0 
 ```
 
 ```
-[root@probtp-ihs dev]# pvmove /dev/vdb1 /dev/mapper/ihscrypt 
+[root@ghrhel74crypt ~]# pvmove /dev/vdb1 /dev/mapper/ihscrypt 
   /dev/vdb1: Moved: 0.00%
   /dev/vdb1: Moved: 4.83%
   /dev/vdb1: Moved: 9.24%
@@ -233,12 +233,12 @@ control  ihscrypt  ihsvg-ihslv
 ```
 
 ```
-[root@probtp-ihs dev]# vgreduce ihsvg /dev/vdb1
+[root@ghrhel74crypt ~]# vgreduce ihsvg /dev/vdb1
   Removed "/dev/vdb1" from volume group "ihsvg"
 ```
 
 ```
-[root@probtp-ihs dev]# lvs
+[root@ghrhel74crypt ~]# lvs
   LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   ihslv ihsvg -wi-ao---- <25.00g                                                    
 ```
