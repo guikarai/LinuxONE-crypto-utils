@@ -145,7 +145,12 @@ control  ihscrypt  ihsvg-ihslv
   ihslv ihsvg -wi-ao---- <25.00g                                                    
 ```
 
+To be sure that there is a prompt after after a reboot, please create /etc/crypttab with the following content:
+```
+ihscrypt /dev/vdc1 none
+```
 
+You just finished the lab PART III. You are now ready for the part IV.
 
 ### Markdown
 
