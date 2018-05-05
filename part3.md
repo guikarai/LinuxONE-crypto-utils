@@ -33,21 +33,27 @@ PBKDF2-whirlpool  208381 iterations per second for 256-bit key
  twofish-xts   512b   181.9 MiB/s   177.0 MiB/s
 
 ```
+#### Using dm-crypt Volumes as LVM Physical Volumes
+For the following, we will use LVM method to protect data at rest with dm-crypt at volume level. Objective will be to migrate data from unencrypted volume to dm-crypt volume. This is a 4 steps approach that doesn't required to reboot or to stop running application.3 steps includes the following:
+– Step 1: add dm-crypt based physical volume to volume group: vgextend VG PV2
+– Step 2: migrate data from V1 to DMV: pvmove V1 DMV
+– Step 3: remove unencrypted volume from the volume group: vgreduce VG PV1
+Let's do this for real now.
 
-#### PVS
+##### PVS
 ```
 [root@ghrhel74crypt ~]# pvs
   PV         VG    Fmt  Attr PSize   PFree
   /dev/vdb1  ihsvg lvm2 a--  <25.00g    0 
 ```
-#### VGS
+##### VGS
 ```
 [root@ghrhel74crypt ~]# vgs
   VG    #PV #LV #SN Attr   VSize   VFree
   ihsvg   1   1   0 wz--n- <25.00g    0 
 ```
 
-#### LVS
+##### LVS
 ```
 [root@ghrhel74crypt ~]# lvs
   LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
