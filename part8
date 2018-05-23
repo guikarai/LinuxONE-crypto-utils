@@ -1,0 +1,122 @@
+#Speeding-up OpenSSL/GnuPG Entropy For Random Number Generation On Linux
+Entropy is nothing but the measure of “randomness” in a sequence of bits. 
+The PRNG ( pseudorandom number generator ) is a special device (e.g. /dev/random on Linux) to create randomness from server hardware activities. It uses interrupts generated from the keyboard, hard disk, mouse, network and other sources. The random number generator gathers environmental noise from device drivers and other sources into an entropy pool. The randomness usually used for security purposes like creating TLS/SSL keys and the quality source of random bits is critical.
+For example, OpenSSL APIs can use quality randomness to make your program cryptographically secure. 
+However, a poor source of randomness could result in loss of security. 
+This chapter is about haveged and rng-utils/rng-tools to generate random numbers and feed linux random device for your virtual or dedicated Linux server.
+
+For Linux on LinuxONE there are multiple kernel interfaces to get to (pseudo) random data. 
+First there are the two standard Linux interfaces.
+/dev/random : blocking interface used for really good random numbers
+/dev/urandom : nonblocking interface used for everything else
+Those interfaces work the same on IBM LinuxONE as they do on other platforms. 
+However in highly virtualized environments there are really idle servers where nothing is happening. 
+This means that there isn't a lot of entropy generated and therefore /dev/random will block.
+
+On top for IBM LinuxONE there are two additional interfaces:
+/dev/prandom : this is a hardware assisted pseudo random number generator using the System z CPACF instructions. To enable it do a modprobe prng. Further details can be found in the "Device Drivers, Features, and Commands" book for upstream, SUSE and Red Hat. In those books search for prng. 
+/dev/hwrng : this is a true random number generator using the CryptoExpress CCA co-processor function. For this to work, you need the hardware card installed and configured to your Linux. Then a modprobe z90crypt starts it. 
+As expected prandom is faster than urandom. But the additional card with the real random number generator is even faster and doesn't use CPU. Obviously when you share the card the throughput will be split between the Linux images. 
+
+If your application is written against /dev/random and there isn't enouh entropy in the system, you can refill it by using the rngd daemon. 
+To start it use then command rngd -r /dev/hwrng. Of course you need to install the rng-tools package first. 
+
+## Knowing your actual entropy
+To see available entropy on Linux, enter:
+$ cat /proc/sys/kernel/random/entropy_avail
+
+Sample outputs:
+
+378
+It is rather low (anything below =< 1000) is going to take a long time to generate randomness using /dev/random as apps will block until you have enough entropy. In other words, you will see slow speed while generating keys or while using OpenSSL APIs.
+
+Finding out your current availability of entropy and quality of randomness
+You need to use the rngtest command as follows. Install it from rng-tools without starting rng in background:
+$ sudo RUNLEVEL=1 apt-get install rng-tools
+$ cat /dev/random | rngtest -c 1000
+
+It is going to take forever to run last command due to low quality randomness. Let us see how to install haveged or rng-tools.
+
+Option #1: Install haveged
+The haveged project is an attempt to provide an easy-to-use, unpredictable random number generator based upon an adaptation of the HAVEGE algorithm. 
+Haveged was created to remedy low-entropy conditions in the Linux random device that can occur under some workloads, especially on headless servers. 
+Linux entropy source using the HAVEGE algorithm and can installed as follows:
+
+Debian/Ubuntu Linux
+Type the following apt-get command:
+$ sudo apt-get install haveged
+
+Sample outputs:
+
+That is all. Test it:
+$ cat /proc/sys/kernel/random/entropy_avail
+$ cat /dev/random | rngtest -c 1000
+$ haveged -n 2g -f - | dd of=/dev/null
+
+Option #2: Install rng-utils/rng-tools
+The rngd is hardware RNG entropy gatherer daemon. Type the following yum command on a CentOS/RHEL based system:
+$ sudo yum install -y rng-utils
+
+Sample outputs:
+
+Debian / Ubuntu Linux users type the following apt-get command:
+$ sudo apt-get install rng-tools
+
+Sample outputs:
+
+hat is all. Test it:
+$ cat /proc/sys/kernel/random/entropy_avail
+$ cat /dev/random | rngtest -c 1000
+
+## Random number generation use cases
+Examples
+To generate a strong DH group or GPG keys using CLI, run:
+Now you should see speed up while using the following commands. To use perfect forward secrecy cipher suites, you must set up Diffie-Hellman parameters on the server side:
+$ openssl dhparam -out dhparams.pem 2048
+
+OR
+$ openssl dhparam -out dhparams.pem 4096
+
+OR
+$ openssl dhparam -out dhparams.pem -dsaparam 4096
+
+Type the following command to generates a key pair that consists of a public and a private key, execute:
+$ gpg2 --gen-key
+
+To generate a /root/keyfile for disk encryption with LUKS, enter:
+$ sudo haveged -n 2048 -f /root/keyfile
+
+To generate random ASCII passwords of the length 16 characters, run:
+$ (haveged -n 1000 -f - 2>/dev/null | tr -cd '[:graph:]' | fold -w 16 && echo ) | head -1
+
+To test the randomness of the generated data with dieharder test suite (use ‘apt-get install dieharder‘ to use dieharder on Debian/Ubuntu Linux):
+$ haveged -n 0 | dieharder -g 200 -a
+
+Sample outputs:
+
+Writing unlimited bytes to stdout
+#=============================================================================#
+#            dieharder version 3.31.1 Copyright 2003 Robert G. Brown          #
+#=============================================================================#
+   rng_name    |rands/second|   Seed   |
+stdin_input_raw|  2.22e+07  |2467094284|
+#=============================================================================#
+        test_name   |ntup| tsamples |psamples|  p-value |Assessment
+#=============================================================================#
+   diehard_birthdays|   0|       100|     100|0.57766651|  PASSED  
+      diehard_operm5|   0|   1000000|     100|0.18806468|  PASSED  
+  diehard_rank_32x32|   0|     40000|     100|0.94961511|  PASSED  
+    diehard_rank_6x8|   0|    100000|     100|0.89699673|  PASSED  
+   diehard_bitstream|   0|   2097152|     100|0.01373793|  PASSED  
+        diehard_opso|   0|   2097152|     100|0.33382051|  PASSED  
+        diehard_oqso|   0|   2097152|     100|0.59662327|  PASSED  
+         diehard_dna|   0|   2097152|     100|0.18392060|  PASSED  
+diehard_count_1s_str|   0|    256000|     100|0.35838284|  PASSED  
+diehard_count_1s_byt|   0|    256000|     100|0.93169702|  PASSED  
+ diehard_parking_lot|   0|     12000|     100|0.25432384|  PASSED  
+    diehard_2dsphere|   2|      8000|     100|0.19976795|  PASSED  
+    diehard_3dsphere|   3|      4000|     100|0.72109364|  PASSED  
+     diehard_squeeze|   0|    100000|     100|0.70961203|  PASSED  
+...
+..
+....
