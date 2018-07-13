@@ -190,4 +190,4 @@ Per-device successfully completed request counts
 ```
 As you can see, "Total open handles equals" now to 2. Opencryptoki application is now correctly plugged to z90crypt to benefit of the crypto offload.
 
-### OpenSSL with PKCS#11 engine
+You are now good to start the next Chapter about how to enable Java to use hardware crypto.
