@@ -28,8 +28,8 @@ We know many potential exploiters, and not limited to the following list:
 - [Part III : Pervasive Encryption - Enabling dm-crypt to use the Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part3.md)
 ### Encryption optimization
 - [Part IV : Optimization - Enabling PKCS#11 APIs to exploit the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part4.md)
-- [Part V : Optimization - Configuring the IBM HTTP Server to use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part5.md)
-- [Part VI : Optimization - Enabling the WAS Plugin to Use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part6.md)
+- [Part V : Optimization - Configuring Apache to use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part5.md)
+- [Part VI : Optimization - Enabling JAVA to Use the Crypto Hardware](https://github.com/guikarai/LinuxONE-crypto-utils/blob/master/part6.md)
 ### Encryption Benchmark
 - TLS Performance Benchmark
 - SCP,SFTP Performance Benchmark
