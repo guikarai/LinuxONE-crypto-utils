@@ -44,7 +44,7 @@ For the following, we will make it easy with opencryptoki. We will use ica token
 ### OpenCryptoki Installation
 To install the basic openCryptoki packages on your system, including a software implementation of a token for testing purposes, enter the following command as root:
 ```
-[root@ghrhel74crypt ~]# yum install opencryptoki
+[root@ghrhel74crypt ~]# yum install opencryptoki-icatok.s390*
 ```
 To enable the openCryptoki service, you need to run the pkcsslotd daemon. Start the daemon for the current session by executing the following command as root:
 ```
@@ -65,27 +65,38 @@ In addition, add the necessary user to the pkcs11 group (root doesn't need to be
 ```
 When started, the pkcsslotd daemon reads the /etc/opencryptoki/opencryptoki.conf configuration file, which it uses to collect information about the tokens configured to work with the system and about their slots.
 
-#### OpenCryptoki Configuration
-```
-[root@ghrhel74crypt ~]# pkcsconf -t
-```
-
+### OpenCryptoki Configuration
 #### Initial check
 ```
+[root@ghrhel74crypt ~]# pkcsconf -t
+Token #1 Info:
+	Label: IBM ICA  PKCS #11               
+	Manufacturer: IBM Corp.                       
+	Model: IBM ICA         
+	Serial Number: 123             
+	Flags: 0x880045 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|USER_PIN_TO_BE_CHANGED|SO_PIN_TO_BE_CHANGED)
+	Sessions: 0/18446744073709551614
+	R/W Sessions: 18446744073709551615/18446744073709551614
+	PIN Length: 4-8
+	Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Hardware Version: 1.0
+	Firmware Version: 1.0
+	Time: 15:34:51
 Token #3 Info:
-Label: IBM OS PKCS#11                  
-Manufacturer: IBM Corp.                       
-Model: IBM SoftTok     
-Serial Number: 123             
-Flags: 0x880045 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|USER_PIN_TO_BE_CHANGED|SO_PIN_TO_BE_CHANGED)
-Sessions: 0/18446744073709551614
-R/W Sessions: 18446744073709551615/18446744073709551614
-PIN Length: 4-8
-Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
-Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
-Hardware Version: 1.0
-Firmware Version: 1.0
-Time: 18:13:52
+	Label: IBM OS PKCS#11                  
+	Manufacturer: IBM Corp.                       
+	Model: IBM SoftTok     
+	Serial Number: 123             
+	Flags: 0x880045 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|USER_PIN_TO_BE_CHANGED|SO_PIN_TO_BE_CHANGED)
+	Sessions: 0/18446744073709551614
+	R/W Sessions: 18446744073709551615/18446744073709551614
+	PIN Length: 4-8
+	Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Hardware Version: 1.0
+	Firmware Version: 1.0
+	Time: 15:34:51
 ```
 
 #### Initialize slot #3
@@ -105,21 +116,35 @@ Re-enter the new SO PIN: 12345678
 
 #### Intermediate check
 ```
-[root@ghrhel74crypt opencryptoki]# pkcsconf -t
+[root@ghrhel74crypt ~]# pkcsconf -t
+Token #1 Info:
+	Label: IBM ICA  PKCS #11               
+	Manufacturer: IBM Corp.                       
+	Model: IBM ICA         
+	Serial Number: 123             
+	Flags: 0x880045 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|USER_PIN_TO_BE_CHANGED|SO_PIN_TO_BE_CHANGED)
+	Sessions: 0/18446744073709551614
+	R/W Sessions: 18446744073709551615/18446744073709551614
+	PIN Length: 4-8
+	Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Hardware Version: 1.0
+	Firmware Version: 1.0
+	Time: 15:38:19
 Token #3 Info:
-Label: ghrhel74                        
-Manufacturer: IBM Corp.                       
-Model: IBM SoftTok     
-Serial Number: 123             
-Flags: 0x80445 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|TOKEN_INITIALIZED|USER_PIN_TO_BE_CHANGED)
-Sessions: 0/18446744073709551614
-R/W Sessions: 18446744073709551615/18446744073709551614
-PIN Length: 4-8
-Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
-Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
-Hardware Version: 1.0
-Firmware Version: 1.0
-Time: 18:20:18
+	Label: ghrhel74                        
+	Manufacturer: IBM Corp.                       
+	Model: IBM SoftTok     
+	Serial Number: 123             
+	Flags: 0x80445 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|TOKEN_INITIALIZED|USER_PIN_TO_BE_CHANGED)
+	Sessions: 0/18446744073709551614
+	R/W Sessions: 18446744073709551615/18446744073709551614
+	PIN Length: 4-8
+	Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Hardware Version: 1.0
+	Firmware Version: 1.0
+	Time: 15:38:19
 ```
 
 #### Set the user PIN
@@ -140,23 +165,37 @@ Re-enter the new user PIN: 43214321
 
 #### Final check
 ```
-[root@ghrhel74crypt opencryptoki]# pkcsconf -t
+[root@ghrhel74crypt ~]# pkcsconf -t
+Token #1 Info:
+	Label: IBM ICA  PKCS #11               
+	Manufacturer: IBM Corp.                       
+	Model: IBM ICA         
+	Serial Number: 123             
+	Flags: 0x880045 (RNG|LOGIN_REQUIRED|CLOCK_ON_TOKEN|USER_PIN_TO_BE_CHANGED|SO_PIN_TO_BE_CHANGED)
+	Sessions: 0/18446744073709551614
+	R/W Sessions: 18446744073709551615/18446744073709551614
+	PIN Length: 4-8
+	Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Hardware Version: 1.0
+	Firmware Version: 1.0
+	Time: 15:39:20
 Token #3 Info:
-Label: ghrhel74                        
-Manufacturer: IBM Corp.                       
-Model: IBM SoftTok     
-Serial Number: 123             
-Flags: 0x44D (RNG|LOGIN_REQUIRED|USER_PIN_INITIALIZED|CLOCK_ON_TOKEN|TOKEN_INITIALIZED)
-Sessions: 0/18446744073709551614
-R/W Sessions: 18446744073709551615/18446744073709551614
-PIN Length: 4-8
-Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
-Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
-Hardware Version: 1.0
-Firmware Version: 1.0
-Time: 18:25:46
+	Label: ghrhel74                        
+	Manufacturer: IBM Corp.                       
+	Model: IBM SoftTok     
+	Serial Number: 123             
+	Flags: 0x44D (RNG|LOGIN_REQUIRED|USER_PIN_INITIALIZED|CLOCK_ON_TOKEN|TOKEN_INITIALIZED)
+	Sessions: 0/18446744073709551614
+	R/W Sessions: 18446744073709551615/18446744073709551614
+	PIN Length: 4-8
+	Public Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Private Memory: 0xFFFFFFFFFFFFFFFF/0xFFFFFFFFFFFFFFFF
+	Hardware Version: 1.0
+	Firmware Version: 1.0
+	Time: 15:39:20
 ```
-Flag 0x44D means you are all good.
+At this step, please note that the Flag 0x44D means you are all good !!!!
 
 You can rapidly check that your implementation works issuing the following command:
 ```
