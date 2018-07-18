@@ -11,12 +11,11 @@ If a CEX5C adapter is available, its hardware random number generator is used to
 
 ### Installing Apache and the pre-requisite packages
 To enable the secure server, you must have the following packages installed at a minimum:
-httpd
-The httpd package contains the httpd daemon and related utilities, configuration files, icons, Apache HTTP Server modules, man pages, and other files used by the Apache HTTP Server.
-mod_ssl
-The mod_ssl package includes the mod_ssl module, which provides strong cryptography for the Apache HTTP Server via the Secure Sockets Layer (SSL) and Transport Layer Security (TLS) protocols.
-openssl
-The openssl package contains the OpenSSL toolkit. The OpenSSL toolkit implements the SSL and TLS protocols, and also includes a general purpose cryptography library.
+httpd - The httpd package contains the httpd daemon and related utilities, configuration files, icons, Apache HTTP Server modules, man pages, and other files used by the Apache HTTP Server.
+
+mod_ssl - The mod_ssl package includes the mod_ssl module, which provides strong cryptography for the Apache HTTP Server via the Secure Sockets Layer (SSL) and Transport Layer Security (TLS) protocols.
+
+openssl - The openssl package contains the OpenSSL toolkit. The OpenSSL toolkit implements the SSL and TLS protocols, and also includes a general purpose cryptography library.
 
 To instal the required packages, please issue the following command:
 ```
