@@ -26,6 +26,28 @@ To start apache, please issue the following command:
 ```
 [root@ghrhel74crypt conf]# service httpd start
 ```
+### Creating TLS crypto materials
+To create a certificate for submission to a CA, issue a command in the following format:
+~]$ openssl req -new -key privkey.pem -out cert.csr
+This will create an X.509 certificate called cert.csr encoded in the default privacy-enhanced electronic mail (PEM) format. The name PEM is derived from “Privacy Enhancement for Internet Electronic Mail” described in RFC 1424. To generate a certificate file in the alternative DER format, use the -outform DER command option.
+After issuing the above command, you will be prompted for information about you and the organization in order to create a distinguished name (DN) for the certificate. You will need the following information:
+The two letter country code for your country
+The full name of your state or province
+City or Town
+The name of your organization
+The name of the unit within your organization
+Your name or the host name of the system
+Your email address
+The req(1) man page describes the PKCS# 10 certificate request and generating utility. Default settings used in the certificate creating process are contained within the /etc/pki/tls/openssl.cnf file. See man openssl.cnf(5) for more information.
+4.7.2.2. Creating a Self-signed Certificate
+To generate a self-signed certificate, valid for 366 days, issue a command in the following format:
+~]$ openssl req -new -x509 -key privkey.pem -out selfcert.pem -days 366
+4.7.2.3. Creating a Certificate Using a Makefile
+The /etc/pki/tls/certs/ directory contains a Makefile which can be used to create certificates using the make command. To view the usage instructions, issue a command as follows:
+~]$ make -f /etc/pki/tls/certs/Makefile
+Alternatively, change to the directory and issue the make command as follows:
+~]$ cd /etc/pki/tls/certs/
+~]$ make
 
 ### Configuring Apache
 The Apache configuration files reside in /etc/httpd/conf/httpd.conf
