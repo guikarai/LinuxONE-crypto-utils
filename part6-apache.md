@@ -24,8 +24,7 @@ To instal the required packages, please issue the following command:
 ```
 To start apache, please issue the following command:
 ```
-SSLCryptoDevice ibmca
-#SSLCryptoDevice ubsec
+[root@ghrhel74crypt conf]# service httpd start
 ```
 
 ### Configuring Apache
