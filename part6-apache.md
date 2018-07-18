@@ -5,12 +5,19 @@ The Apache interface to OpenSSL is the mod ssl module. OpenSSL provides built-in
 ### Installing Apache and the pre-requisite packages
 To instal the required packages, please issue the following command:
 ```
-yum install httpd
+[root@ghrhel74crypt conf]# yum install httpd
 ```
 
 ### Configuring Apache
 The Apache configuration files reside in /etc/httpd/conf/httpd.conf
 The mod ssl_module configuration file is /etc/httpd/conf.d/ssl.conf
 
-Add the following line to your configuration:
+Let's change the configuration file of mod_ssl to enable hardware acceleration of SSL/TLS communication of Apache. Please edit the following configuration file issuing the following command:
+```
+[root@ghrhel74crypt conf]# vi /etc/httpd/conf.d/ssl.conf
+```
+
+From there, add the following line to your configuration (or if SSLCryptoDevice is already seted, replace "builtin" by "bmca" as follow:
+```
 SSLCryptoDevice ibmca
+```
