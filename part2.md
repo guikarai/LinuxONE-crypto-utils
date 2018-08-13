@@ -1,4 +1,4 @@
-## Part II - Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
+## Step 2 - Pervasive Encryption - Enabling OpenSSL and openSSH to use the Hardware
 This chapter describes how to use the cryptographic functions of the LinuxONE to encrypt data in flight. This technique means that the data is encrypted and decrypted before and after it is transmitted. We will use OpenSSL, SCP and SFTP to demonstrate the encryption of data in flight.
 This chapter also shows how to customize the product to use the LinuxONE hardware encryption features. This chapter includes the following sections:
 - Preparing to use OpenSSL
