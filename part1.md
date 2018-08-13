@@ -1,4 +1,4 @@
-## Part I - Enabling Linux to use the Hardware
+# Enabling Linux to use the Hardware
 #### CPACF Enablement verification
 A Linux on IBM Z user can easily check whether the Crypto Enablement feature is installed
 and which algorithms are supported in hardware. Hardware-acceleration for DES, TDES,
