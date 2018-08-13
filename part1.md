@@ -209,4 +209,5 @@ After the libica utility is installed, use the icaiinfo command to check on the 
 -------------------------------------------
 No built-in FIPS support.
 ```
-You are now ready to start the Part II.
+
+This ends, the basic configuration of your Linux Environment.
