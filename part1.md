@@ -1,5 +1,8 @@
 # Enabling Linux to use the Hardware
-#### CPACF Enablement verification
+## About this section
+This section is part of the Pervasive Encryption series.
+
+## CPACF Enablement verification
 A Linux on IBM Z user can easily check whether the Crypto Enablement feature is installed
 and which algorithms are supported in hardware. Hardware-acceleration for DES, TDES,
 AES, and GHASH requires CPACF.
